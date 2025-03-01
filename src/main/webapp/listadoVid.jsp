@@ -24,13 +24,17 @@
         <div class="container">
             <h1 class="text-center">Listado de Videos</h1>
 
-            <!-- Botón para cerrar sesión -->
-            <div class="text-end mb-3">
+            <!-- Añadir y cerrar sesion -->
+            <div class="d-flex justify-content-between mb-3">
+                <!-- Botón para añadir video -->
+                <button class="btn btn-success" onclick="window.location.href='registroVid.jsp'">Añadir Video</button>
+                <!-- Botón para cerrar sesión -->
                 <form action="logout" method="post">
                     <button class="btn btn-danger">Cerrar sesión</button>
                 </form>
             </div>
 
+            
             <!-- Ejemplo de listado de videos -->
             <div class="row">
                 <div class="col-md-4">
