@@ -1,2 +1,7 @@
-idscm\idscm_web\JakartaRestConfiguration.class
+servlets\servletRoot.class
 idscm\idscm_web\resources\JakartaEE91Resource.class
+servlets\servletUsuarios.class
+idscm\idscm_web\JakartaRestConfiguration.class
+database\DatabaseConnection.class
+dao\UserDAO.class
+model\User.class
