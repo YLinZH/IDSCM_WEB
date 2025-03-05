@@ -1,0 +1,12 @@
+models\Video.class
+daos\VideoDAO.class
+idscm\idscm_web\JakartaRestConfiguration.class
+services\UserService.class
+models\User.class
+servlets\ServletListadoVid.class
+servlets\ServletRegistroVid.class
+idscm\idscm_web\resources\JakartaEE91Resource.class
+daos\UserDAO.class
+servlets\ServletUsuarios.class
+utils\DatabaseConnection.class
+services\VideoService.class

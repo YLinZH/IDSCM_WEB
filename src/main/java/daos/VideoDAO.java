@@ -54,15 +54,15 @@ public class VideoDAO {
             while (rs.next()) {
                 Video video = new Video(
                         rs.getInt("id"),
-                        rs.getString("title"),
-                        rs.getString("author"),
-                        rs.getString("creationDate"),
-                        rs.getString("duration"),
-                        rs.getInt("views"),
-                        rs.getString("description"),
-                        rs.getString("format"),
+                        rs.getString("titulo"),
+                        rs.getString("autor"),
+                        rs.getString("fecha_creacion"),
+                        rs.getString("duracion"),
+                        rs.getInt("reproducciones"),
+                        rs.getString("descripcion"),
+                        rs.getString("formato"),
                         rs.getString("path"),
-                        rs.getInt("userId")
+                        rs.getInt("user_id")
                 );
                 videos.add(video);
             }

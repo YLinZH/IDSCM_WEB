@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.util.List" %>
+<%@ page import="models.Video" %> 
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -33,40 +35,39 @@
                     <button class="btn btn-danger">Cerrar sesión</button>
                 </form>
             </div>
-
             
-            <!-- Ejemplo de listado de videos -->
             <div class="row">
-                <div class="col-md-4">
-                    <div class="card video-card">
-                        <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Video 1">
-                        <div class="card-body">
-                            <h5 class="card-title">Video 1</h5>
-                            <p class="card-text">Descripción del video 1.</p>
-                            <a href="#" class="btn btn-primary">Ver Video</a>
-                        </div>
+                <%
+
+                    if (request.getAttribute("videos") == null) {
+                        response.sendRedirect("listadoVideos");
+                        return;
+                    }
+
+                    List<Video> listaVideos = (List<Video>) request.getAttribute("videos"); // Obtener la lista desde el request
+                    if (listaVideos != null && !listaVideos.isEmpty()) { // Verificar que la lista no sea null ni esté vacía
+                        for (Video video : listaVideos) {
+                %>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><%= video.getTitle() %></h5>
+                                        <p class="card-text"><%= video.getAuthor() %></p>
+                                        <p class="card-text"><%= video.getDescription() %></p>
+                                    </div>
+                                </div>
+                            </div>
+                <%
+                        }
+                    } else { 
+                %>
+                    <!-- Mostrar mensaje si no hay videos -->
+                    <div class="col-12 text-center">
+                        <p class="alert alert-warning">No hay videos disponibles.</p>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card video-card">
-                        <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Video 2">
-                        <div class="card-body">
-                            <h5 class="card-title">Video 2</h5>
-                            <p class="card-text">Descripción del video 2.</p>
-                            <a href="#" class="btn btn-primary">Ver Video</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card video-card">
-                        <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Video 3">
-                        <div class="card-body">
-                            <h5 class="card-title">Video 3</h5>
-                            <p class="card-text">Descripción del video 3.</p>
-                            <a href="#" class="btn btn-primary">Ver Video</a>
-                        </div>
-                    </div>
-                </div>
+                <%
+                    }
+                %>
             </div>
         </div>
 

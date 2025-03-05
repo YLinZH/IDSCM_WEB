@@ -1,7 +1,8 @@
 package services;
 
-import daos.UserDAO;
 import daos.VideoDAO;
+import java.util.List;
+import models.Video;
 
 /**
  *
@@ -25,7 +26,6 @@ public class VideoService {
             return "La ruta del video es vacia";
         }
         
-        VideoDAO videoDAO = new VideoDAO();
 
         if(videoDAO.checkVideo(title)){
             return "Titulo de video repetido";
@@ -37,6 +37,10 @@ public class VideoService {
             return "success";
         }
         return "error";
+    }
+    
+    public List<Video> getListaVideos(int userId){
+        return videoDAO.getVideosByUserId(userId);
     }
     
 }

@@ -18,6 +18,7 @@ import services.VideoService;
  *
  * @author zhihan
  */
+
 @WebServlet(name = "servletRegistroVid", urlPatterns = {"/registroVideo"})
 public class ServletRegistroVid extends HttpServlet {
     
