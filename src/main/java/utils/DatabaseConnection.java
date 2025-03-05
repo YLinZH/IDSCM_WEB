@@ -1,4 +1,4 @@
-package database;
+package utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,7 +13,7 @@ public class DatabaseConnection {
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             throw new RuntimeException("Error al cargar el driver JDBC");
         }
     }
