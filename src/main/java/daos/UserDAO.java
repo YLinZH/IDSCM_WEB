@@ -1,17 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package dao;
-import model.User;
-import database.DatabaseConnection;
+package daos;
+import models.User;
+import utils.DatabaseConnection;
 import java.sql.*;
 
 public class UserDAO {
 
     public User getUser(String username, String password) {
         User user = null;
-        String sql = "SELECT * FROM \"user\" WHERE username = ? AND password = ?";
+        String sql = "SELECT * FROM usuarios WHERE username = ? AND password = ?";
 
         try (Connection conn = DatabaseConnection.getConnection()) {
 
@@ -35,8 +31,9 @@ public class UserDAO {
             
             rs.close();
             stmt.close();
+            conn.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
         return user;
@@ -45,7 +42,7 @@ public class UserDAO {
     
     public User checkUser(String username) {
         User user = null;
-        String sql = "SELECT * FROM \"user\" WHERE user = ?";
+        String sql = "SELECT * FROM usuarios WHERE username = ?";
 
         try (Connection conn = DatabaseConnection.getConnection()) {
 
@@ -68,15 +65,16 @@ public class UserDAO {
             
             rs.close();
             stmt.close();
+            conn.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
         return user;
     }
     
     public int insertUser(String name, String surname, String mail, String username, String password) {
-        String sql = "INSERT INTO \"user\" (id, name, surname, mail, username, password) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO usuarios (id, name, surname, mail, username, password) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -90,16 +88,19 @@ public class UserDAO {
             stmt.setString(6, password);
             stmt.executeUpdate();
             
+            stmt.close();
+            conn.close();
+            
             return nextId;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return -1;
     }
 
     
     public int getLastUserId() {
-        String sql = "SELECT MAX(id) FROM \"user\"";
+        String sql = "SELECT MAX(id) FROM usuarios";
         int nextId = 1; // Por defecto, si no hay registros, empieza en 1
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -109,12 +110,35 @@ public class UserDAO {
             if (rs.next()) {
                 nextId = rs.getInt(1) + 1;
             }
-
+            
+            rs.close();
+            stmt.close();
+            conn.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
         return nextId;
+    }
+    
+    // Método para obtener el user_id a partir del username
+    public int getUserIdByUsername(String username) {
+        int userId = -1;
+        String query = "SELECT id FROM usuarios WHERE username = ?";
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                userId = rs.getInt("id");  // Obtener el user_id
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return userId;
     }
 
 

@@ -4,28 +4,23 @@
  */
 package servlets;
 
-import dao.UserDAO;
-import database.DatabaseConnection;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import services.UserService;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpSession;
-import model.User;
+import models.User;
 
 /**
  *
- * @author zhiha
+ * @author zhihan
  */
 
-@WebServlet(name = "servletUsuarios", urlPatterns = {"/login", "/register", "/logout"})
-public class servletUsuarios extends HttpServlet {
+@WebServlet(name = "ServletUsuarios", urlPatterns = {"/login", "/register", "/logout"})
+public class ServletUsuarios extends HttpServlet {
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -65,11 +60,11 @@ public class servletUsuarios extends HttpServlet {
             else{
                 // Acción no reconocida
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida");
-                }
-            } else {
-                // Si no se pasa la acción, puedes manejarlo como un error o redirigir a un formulario
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción requerida");
             }
+        } else {
+            // Si no se pasa la acción, puedes manejarlo como un error o redirigir a un formulario
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción requerida");
+        }
     }
 
     private void loginUser(HttpServletRequest request, HttpServletResponse response)
@@ -77,21 +72,29 @@ public class servletUsuarios extends HttpServlet {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        
-        UserDAO userDAO = new UserDAO();
-        User user = userDAO.getUser(username, password);
 
-        if (user != null) {
-            // Si el usuario es encontrado, se establece la sesión
-            HttpSession session = request.getSession();
-            session.setAttribute("user", user.getUsername());
-            response.sendRedirect("listadoVid.jsp");
-        } else {
-            // Si el usuario no es encontrado, mostrar error
-            request.setAttribute("error", "Usuario o contraseña incorrectos.");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+        try {
+            // Verificar las credenciales del usuario
+            UserService userService = new UserService();
+            User user = userService.loginUser(username, password);
+
+            if (user != null) {
+                // Si el usuario es encontrado, se establece la sesión
+                HttpSession session = request.getSession();
+                session.setAttribute("user", user.getUsername());
+                response.sendRedirect("listadoVid.jsp");
+            } else {
+                // Si el usuario no es encontrado, mostrar error
+                request.setAttribute("error", "Usuario o contraseña incorrectos.");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            response.sendRedirect("login.jsp?error=DatabaseError");
         }
     }
+
 
     private void registerUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -102,32 +105,20 @@ public class servletUsuarios extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
-
-        if (!password.equals(confirmPassword)) {
-            request.setAttribute("error", "Las contraseñas no coinciden.");
-            request.getRequestDispatcher("registroUsu.jsp").forward(request, response);
-            return;
-        }
         
-
-        try (Connection conn = DatabaseConnection.getConnection()) {
+        try {
             // Verificar si el usuario ya existe
-            UserDAO userDAO = new UserDAO();
-            User user = userDAO.checkUser(username);
-            
-            if (user != null) {
-                request.setAttribute("error", "El usuario ya existe.");
+            UserService userService = new UserService();
+            String result = userService.registerUser(name, surname, mail, username, password, confirmPassword);
+            if ("success".equals(result)) {
+                response.sendRedirect("registroUsu.jsp?success=true");
+            } else {
+                request.setAttribute("error", result);
                 request.getRequestDispatcher("registroUsu.jsp").forward(request, response);
-                return;
             }
-
-            // Insertar nuevo usuario
-            int userId = userDAO.insertUser(name, surname, mail, username, password);
-
-            response.sendRedirect("login.jsp");
+            
         } catch (Exception e) {
-            e.printStackTrace();
-            response.sendRedirect("registroUsu.jsp?error=DatabaseError");
+            System.out.println(e.getMessage());
         }
     }
     

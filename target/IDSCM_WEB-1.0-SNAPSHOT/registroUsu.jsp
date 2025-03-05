@@ -15,7 +15,16 @@
             <div class="register-container">
                 <h3 class="text-center">Register</h3>
                 <p class="text-center text-muted">Create an account</p>
-
+                
+                <% 
+                    String errorMessage = (String) request.getAttribute("error");
+                    if (errorMessage != null) { 
+                %>
+                    <div class="alert alert-danger text-center" role="alert">
+                        <%= errorMessage %>
+                    </div>
+                <% } %>
+                
                 <!-- Form for user registration -->
                 <form action="register" method="post">
                     <div class="mb-3">
@@ -29,8 +38,8 @@
                     <div class="mb-3">
                         <label for="mail" class="form-label">Email</label>
                         <input type="email" class="form-control" id="mail" name="mail" required 
-                               pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" 
-                               title="Please enter a valid email address (e.g., user@example.com)">
+                            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" 
+                            title="Please enter a valid email address (e.g., user@example.com)">
                     </div>
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
@@ -54,6 +63,6 @@
 
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
+        <script src="js/registroUsu.js"></script>
     </body>
 </html>

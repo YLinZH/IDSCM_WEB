@@ -1,6 +1,11 @@
-/home/alumne/NetBeansProjects/IDSCM_WEB/src/main/java/dao/UserDAO.java
-/home/alumne/NetBeansProjects/IDSCM_WEB/src/main/java/idscm/idscm_web/JakartaRestConfiguration.java
-/home/alumne/NetBeansProjects/IDSCM_WEB/src/main/java/database/DatabaseConnection.java
-/home/alumne/NetBeansProjects/IDSCM_WEB/src/main/java/servlets/servletUsuarios.java
-/home/alumne/NetBeansProjects/IDSCM_WEB/src/main/java/model/User.java
-/home/alumne/NetBeansProjects/IDSCM_WEB/src/main/java/idscm/idscm_web/resources/JakartaEE91Resource.java
+C:\Master_MEI\Primavera\ISDCM\ApplicationWeb\IDSCM_WEB\src\main\java\servlets\ServletRegistroVid.java
+C:\Master_MEI\Primavera\ISDCM\ApplicationWeb\IDSCM_WEB\src\main\java\services\UserService.java
+C:\Master_MEI\Primavera\ISDCM\ApplicationWeb\IDSCM_WEB\src\main\java\servlets\ServletUsuarios.java
+C:\Master_MEI\Primavera\ISDCM\ApplicationWeb\IDSCM_WEB\src\main\java\utils\DatabaseConnection.java
+C:\Master_MEI\Primavera\ISDCM\ApplicationWeb\IDSCM_WEB\src\main\java\models\Video.java
+C:\Master_MEI\Primavera\ISDCM\ApplicationWeb\IDSCM_WEB\src\main\java\services\VideoService.java
+C:\Master_MEI\Primavera\ISDCM\ApplicationWeb\IDSCM_WEB\src\main\java\idscm\idscm_web\JakartaRestConfiguration.java
+C:\Master_MEI\Primavera\ISDCM\ApplicationWeb\IDSCM_WEB\src\main\java\models\User.java
+C:\Master_MEI\Primavera\ISDCM\ApplicationWeb\IDSCM_WEB\src\main\java\daos\UserDAO.java
+C:\Master_MEI\Primavera\ISDCM\ApplicationWeb\IDSCM_WEB\src\main\java\daos\VideoDAO.java
+C:\Master_MEI\Primavera\ISDCM\ApplicationWeb\IDSCM_WEB\src\main\java\idscm\idscm_web\resources\JakartaEE91Resource.java
