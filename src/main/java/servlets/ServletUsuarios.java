@@ -81,7 +81,7 @@ public class ServletUsuarios extends HttpServlet {
                 // Si el usuario es encontrado, se establece la sesión
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user.getUsername());
-                response.sendRedirect("listadoVid.jsp");
+                response.sendRedirect("listadoVideos");
             } else {
                 // Si el usuario no es encontrado, mostrar error
                 request.setAttribute("error", "Usuario o contraseña incorrectos.");
