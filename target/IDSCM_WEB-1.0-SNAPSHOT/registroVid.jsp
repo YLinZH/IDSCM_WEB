@@ -2,7 +2,7 @@
 
 <%@ page session="true" %>
 <%
-    // Verificar si el usuario está logueado (por ejemplo, si existe una sesión con "user")
+    // Verificar si el usuario está logueado
     String username = (String) session.getAttribute("user");
     if (username == null) {
         // Si el usuario no está logueado, redirigir a la página de login
@@ -47,7 +47,7 @@
                             <%= errorMessage %>
                         </div>
                     <% } %>
-                    <form action="registroVideo" method="post">
+                    <form action="registroVideo" method="post" enctype="multipart/form-data">
 
                         <div class="mb-3">
                             <label for="titulo" class="form-label">Título</label>
@@ -62,26 +62,18 @@
                         <div class="mb-3">
                             <label for="descripcion" class="form-label">Descripción</label>
                             <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
-                        </div>
+                        </div>                   
                         
                         <div class="mb-3">
-                            <label for="path" class="form-label">Path</label>
-                            <input type="text" class="form-control" id="path" name="path" required>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="filePath" class="form-label">Upload Video</label>
-                            <input type="file" class="form-control" id="filePath" name="filePath" required onchange="handleFileSelect(event)">
+                            <label for="video" class="form-label">Upload Video</label>
+                            <input type="file" class="form-control" id="video" name="video" accept="video/*" required onchange="handleFileSelect(event)">
                         </div>
                         
                         <div class="mb-3">
                             <label for="duracion" class="form-label">Duración (segundos)</label>
                             <input type="number" class="form-control" id="duracion" name="duracion" readonly required>
                         </div>
-                         <div class="mb-3">
-                            <label for="reproducciones" class="form-label">Número de reproducciones</label>
-                            <input type="number" class="form-control" id="reproducciones" name="reproducciones" readonly required>
-                        </div>
+
                         <div class="mb-3">
                             <label for="formato" class="form-label">Formato</label>
                             <input type="text" class="form-control" id="formato" name="formato" readonly required>

@@ -1,12 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package models;
 
 /**
  *
- * @author zhiha
+ * @author zhihan
  */
 public class User {
     private int id;
@@ -16,6 +12,15 @@ public class User {
     private String username;
     private String password;
 
+    /**
+     * Constructor
+     * @param id id de usuario
+     * @param name nombre
+     * @param surname Apellido
+     * @param mail Correo
+     * @param username nombre de usuario
+     * @param password contraseña
+     */
     public User(int id, String name, String surname, String mail, String username, String password) {
         this.id = id;
         this.name = name;
@@ -25,6 +30,7 @@ public class User {
         this.password = password;
     }
 
+    // Getters y Setters
     public int getId() {
         return id;
     }
