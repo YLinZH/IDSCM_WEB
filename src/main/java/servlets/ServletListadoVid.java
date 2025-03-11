@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import models.Video;
@@ -39,15 +40,33 @@ public class ServletListadoVid extends HttpServlet {
             return;
         }
         
-        UserService userService = new UserService();
-        VideoService videoService = new VideoService();
-        int userId = userService.getUserIdByUsername(username);
-        listaVideos = videoService.getListaVideos(userId);
+        try{
+            UserService userService = new UserService();
+            VideoService videoService = new VideoService();
+            int userId = userService.getUserIdByUsername(username);
+            listaVideos = videoService.getListaVideos(userId);
 
-        // Pasar la lista de videos al JSP
-        request.setAttribute("videos", listaVideos);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("listadoVid.jsp");
-        dispatcher.forward(request, response);
+            // Pasar la lista de videos al JSP
+            request.setAttribute("videos", listaVideos);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("listadoVid.jsp");
+            dispatcher.forward(request, response);
+        }catch (SQLException e) {
+            // Manejo de errores específicos para SQLException
+            e.printStackTrace();
+            request.setAttribute("error", "Error en la base de datos. Por favor, intente nuevamente más tarde.");
+            request.getRequestDispatcher("registroVid.jsp").forward(request, response);
+        } catch (NullPointerException e) {
+            // Manejo de errores específicos para NullPointerException
+            e.printStackTrace();
+            request.setAttribute("error", "Ocurrió un error al procesar los datos. Es posible que la sesión haya expirado.");
+            request.getRequestDispatcher("registroVid.jsp").forward(request, response);
+        } catch (Exception e) {
+            // Captura cualquier otra excepción no manejada
+            e.printStackTrace();
+            request.setAttribute("error", "Ocurrió un error inesperado. Por favor, contacte al administrador.");
+            request.getRequestDispatcher("registroVid.jsp").forward(request, response);
+        }
+
     }
 
 

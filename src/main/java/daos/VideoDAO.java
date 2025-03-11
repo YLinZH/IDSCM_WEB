@@ -12,12 +12,29 @@ import models.Video;
  */
 public class VideoDAO {
     
+    /**
+     * 
+     * @param title titulo del video
+     * @param author autor del video
+     * @param creationDate fecha de creación del video
+     * @param duration duración del video
+     * @param views número de reproducciones del video
+     * @param description descripcion del video
+     * @param format formato del video
+     * @param videoPath ruta del video
+     * @param userId id de usuario que ha registrado el video
+     * @return true si el video ha sido registrado, false el caso contrario
+     * @throws SQLException Error al registrar video
+     */
     public boolean registerVideo(String title, String author, String creationDate, String duration,
-                              int views, String description, String format, String videoPath, int userId) {
+                              int views, String description, String format, String videoPath, int userId) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
         String query = "INSERT INTO videos (id, titulo, autor, fecha_creacion, duracion, reproducciones, descripcion, formato, path, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection()) {
-            
-            PreparedStatement stmt = conn.prepareStatement(query);
+        try{
+            conn = DatabaseConnection.getConnection();
+            stmt = conn.prepareStatement(query);
             
             int nextId = getLastVideoId();
             stmt.setInt(1, nextId);
@@ -35,21 +52,40 @@ public class VideoDAO {
             return rowsAffected > 0;  // Devuelve true si el video fue insertado correctamente
             
         }catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();  
+            throw new SQLException("Error al registrar video", e);
+        }finally {
+            // Asegurarse de que los recursos sean cerrados en cualquier caso
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
         }
-        return false;
     }
     
-    // Método para obtener todos los videos de un usuario
-    public List<Video> getVideosByUserId(int userId) {
+    
+    /**
+     * Método para obtener todos los videos de un usuario
+     * @param userId id de usuario
+     * @return lista de videos
+     * @throws SQLException Error al obtener lista de videos
+     */
+    public List<Video> getVideosByUserId(int userId) throws SQLException {
         List<Video> videos = new ArrayList<>();
         String query = "SELECT * FROM videos WHERE user_id = ?";
-
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try{
+            conn = DatabaseConnection.getConnection();
+            stmt = conn.prepareStatement(query);
             stmt.setInt(1, userId);
-            ResultSet rs = stmt.executeQuery();
+            rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Video video = new Video(
@@ -66,60 +102,106 @@ public class VideoDAO {
                 );
                 videos.add(video);
             }
+            return videos;
+            
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();  
+            throw new SQLException("Error al obtener lista de videos", e);
+        }finally {
+            // Asegurarse de que los recursos sean cerrados en cualquier caso
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
         }
-        return videos;
     }
     
-    // Obtener el id del último video
-    public int getLastVideoId() {
+    
+    /**
+     * Obtener el id del último video
+     * @return último id mas grande de video
+     * @throws SQLException Error al obtener el último id de videos
+     */
+    public int getLastVideoId() throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
         String sql = "SELECT MAX(id) FROM videos";
         int nextId = 1; // Por defecto, si no hay registros, empieza en 1
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
+        try{
+            conn = DatabaseConnection.getConnection();
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
             if (rs.next()) {
                 nextId = rs.getInt(1) + 1;
             }
             
-            rs.close();
-            stmt.close();
-            conn.close();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            return nextId;
+            
+        }catch (SQLException e) {
+            e.printStackTrace();  
+            throw new SQLException("Error al obtener el último id de videos", e);
+        }finally {
+            // Asegurarse de que los recursos sean cerrados en cualquier caso
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
         }
 
-        return nextId;
     }
     
-    // verifica si el video ya existe
-    public boolean checkVideo(String title) {
-        
-        String sql = "SELECT * FROM videos WHERE titulo = ?";
-        boolean isVideoExist = false;
-        try (Connection conn = DatabaseConnection.getConnection()) {
 
-            PreparedStatement stmt = conn.prepareStatement(sql);       
+    /**
+     * verifica si el video ya existe para un usuario especifico
+     * @param title titulo del Video
+     * @return true si el video existe, false si el video no existe
+     * @throws SQLException Error al validar si el video existe en un usuario
+     */
+    public boolean checkVideo(String title, int userId) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String sql = "SELECT * FROM videos WHERE titulo = ? and user_id = ?";
+        boolean isVideoExist = false;
+        try{
+            conn = DatabaseConnection.getConnection();
+            stmt = conn.prepareStatement(sql);       
 
             stmt.setString(1, title);
-
-            ResultSet rs = stmt.executeQuery();
+            stmt.setInt(2, userId);
+            rs = stmt.executeQuery();
             
             if (rs.next()) {
                 isVideoExist = true;
             }
-            
-            rs.close();
-            stmt.close();
-            conn.close();
+
             return isVideoExist;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();  
+            throw new SQLException("Error al validar si el video existe en un usuario", e);
+        }finally {
+            // Asegurarse de que los recursos sean cerrados en cualquier caso
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
         }
-        
-        return isVideoExist;
     }
 }

@@ -1,6 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
 <%@ page import="models.Video" %> 
+<% 
+    String usuario = (String) session.getAttribute("user");
+    if (usuario == null) {
+        response.sendRedirect("login.jsp"); // Redirige al login si no hay sesión
+    }
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -9,17 +15,7 @@
         <title>Listado de Videos</title>
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-        <style>
-            body {
-                background-color: #f8f9fa;
-            }
-            .container {
-                margin-top: 30px;
-            }
-            .video-card {
-                margin-bottom: 20px;
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" href="css/listadoVid.css">
     </head>
     <body>
 
