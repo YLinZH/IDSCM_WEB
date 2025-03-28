@@ -39,7 +39,10 @@ public class ServletRegistroVid extends HttpServlet {
     // prevenir que los usuarios puedan acceder a la pagina sin loguear
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+
         String action = request.getRequestURI();
         HttpSession session = request.getSession(false);
         
@@ -57,7 +60,9 @@ public class ServletRegistroVid extends HttpServlet {
    
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
         // Obtener el username de la sesión
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("user");

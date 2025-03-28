@@ -50,6 +50,7 @@
                                         <h5 class="card-title"><%= video.getTitle() %></h5>
                                         <p class="card-text"><%= video.getAuthor() %></p>
                                         <p class="card-text"><%= video.getDescription() %></p>
+                                        <a href="ServletREST?id=<%= video.getId() %>" class="btn btn-primary">Reproducir</a>
                                     </div>
                                 </div>
                             </div>
@@ -64,6 +65,7 @@
                 <%
                     }
                 %>
+                
             </div>
         </div>
 

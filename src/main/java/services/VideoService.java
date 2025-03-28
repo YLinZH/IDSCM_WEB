@@ -53,6 +53,7 @@ public class VideoService {
         }
         return "error";
     }
+    
     /**
      * Obtener el listado de Videos de un usuario concreto
      * @param userId id de usuario
@@ -61,6 +62,16 @@ public class VideoService {
      */
     public List<Video> getListaVideos(int userId) throws SQLException{
         return videoDAO.getVideosByUserId(userId);
+    }
+    
+    /**
+     * Obtener Video a partir del id
+     * @param id id de Video
+     * @return el video con id correspondiente
+     * @throws SQLException Error sobre obtener el Video a partir de id
+     */
+    public Video getVideoById(int id) throws SQLException{
+        return videoDAO.getVideoById(id);
     }
     
 }
