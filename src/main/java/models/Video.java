@@ -32,6 +32,19 @@ public class Video {
         this.userId = userId;
     }
 
+    public Video() {
+        this.id = -1;
+        this.title = "";
+        this.author = "";
+        this.creationDate = "";
+        this.duration = "";
+        this.views = 0;
+        this.description = "";
+        this.format = "";
+        this.path = "";
+        this.userId = -1;
+    }
+
     public int getId() {
         return id;
     }

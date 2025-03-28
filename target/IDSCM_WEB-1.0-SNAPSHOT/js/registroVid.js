@@ -13,7 +13,6 @@ function handleFileSelect(event) {
             const duracion = video.duration.toFixed(2);
             document.getElementById('duracion').value = duracion;
             document.getElementById('formato').value = fileExtension;
-            document.getElementById('reproducciones').value = 0;
         };
     }
 }
@@ -33,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <h5 class="modal-title" id="successModalLabel">Video Registration Successful</h5>
                         </div>
                         <div class="modal-body text-center">
-                            Redirecting to login...
+                            Redirecting to List of Videos...
                         </div>
                     </div>
                 </div>

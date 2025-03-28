@@ -204,4 +204,56 @@ public class VideoDAO {
             }
         }
     }
+    
+    
+    /**
+     * Obtener Video a partir del id
+     * @param id id de Video
+     * @return el video con id correspondiente
+     * @throws SQLException Error sobre obtener el Video a partir de id
+     */
+    public Video getVideoById(int id) throws SQLException{
+        String query = "SELECT * FROM videos WHERE id = ?";
+        Video video = new Video();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try{
+            conn = DatabaseConnection.getConnection();
+            stmt = conn.prepareStatement(query);
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                video = new Video(
+                        rs.getInt("id"),
+                        rs.getString("titulo"),
+                        rs.getString("autor"),
+                        rs.getString("fecha_creacion"),
+                        rs.getString("duracion"),
+                        rs.getInt("reproducciones"),
+                        rs.getString("descripcion"),
+                        rs.getString("formato"),
+                        rs.getString("path"),
+                        rs.getInt("user_id")
+                );
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();  
+            throw new SQLException("Error al obtener el video por id", e);
+        }finally {
+            // Asegurarse de que los recursos sean cerrados en cualquier caso
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return video;
+    }
 }
