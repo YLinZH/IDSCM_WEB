@@ -27,6 +27,7 @@
                     </div>
                     <div class="col-8">
                         <h2>${video.title}</h2>
+                        <p>Reproducciones: ${video.views}</p>
                         <!-- Reproductor VideoJS con ancho completo -->
                         <video id="my-video" class="video-js w-100" controls preload="auto" height="400"
                                data-setup="{}">

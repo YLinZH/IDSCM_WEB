@@ -26,6 +26,7 @@
             <div class="d-flex justify-content-between mb-3">
                 <!-- Botón para añadir video -->
                 <button class="btn btn-success" onclick="window.location.href='registroVid.jsp'">Añadir Video</button>
+                <a href="busqueda.jsp" class="btn btn-primary">Búsqueda de videos</a>
                 <!-- Botón para cerrar sesión -->
                 <form action="logout" method="post">
                     <button class="btn btn-danger">Cerrar sesión</button>
@@ -50,6 +51,7 @@
                                         <h5 class="card-title"><%= video.getTitle() %></h5>
                                         <p class="card-text"><%= video.getAuthor() %></p>
                                         <p class="card-text"><%= video.getDescription() %></p>
+                                        <p class="card-text">Reproducciones: <%= video.getViews() %></p>
                                         <a href="ServletREST?id=<%= video.getId() %>" class="btn btn-primary">Reproducir</a>
                                     </div>
                                 </div>
